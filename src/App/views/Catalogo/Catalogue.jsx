@@ -1,4 +1,12 @@
-import { Container, Row, Col, Button, Form } from "react-bootstrap";
+import {
+	Container,
+	Row,
+	Col,
+	Button,
+	Form,
+	OverlayTrigger,
+	Popover
+} from "react-bootstrap";
 import {
 	FaPlayCircle,
 	FaCloudDownloadAlt,
@@ -8,49 +16,76 @@ import {
 import { BiBarChartAlt } from "react-icons/bi";
 import { MdOutlineComputer } from "react-icons/md";
 import { IoIosInfinite, IoMdCheckmark } from "react-icons/io";
-import { GoClock } from "react-icons/go";
+import { GoClock, GoHeart, GoHeartFill } from "react-icons/go";
 import CarouselSU from "./CarouselSU";
 import css from "./css.module.css";
 import { useState, useEffect } from "react";
 import CatalogueData from "./CatalogueData";
+import { useOutletContext } from "react-router-dom";
+
 const Catalogue = () => {
 	const [searchTerm, setSearchTerm] = useState("");
 	const [courses, setCourses] = useState([]);
+	const { onFavoritesUpdate } = useOutletContext();
+	const [favorites, setFavorites] = useState(() => {
+		const savedFavorites = localStorage.getItem("favorites");
+		return savedFavorites ? JSON.parse(savedFavorites) : []; //mi localStorage para los favoritos
+	});
+	const [loading, setLoading] = useState(true); //faltaria un icono
+	const [popoverMessage, setPopoverMessage] = useState("");
 
 	useEffect(() => {
 		const fetchData = async () => {
 			try {
 				const response = await fetch(
-					"https://skillup-pi83.onrender.com/api/courses"
+					"https://skillup-pi83.onrender.com/api/courses" //(como integrar con services?)
 				);
 				const data = await response.json();
 				if (data.message === "success") {
 					setCourses(data.courses);
 				} else {
-					console.error("No carga informacion del curso");
+					console.error("No carga información del curso");
 				}
 			} catch (error) {
-				console.error("Falta informacion:", error);
+				console.error("Falta información:", error);
+			} finally {
+				setLoading(false);
 			}
 		};
-
 		fetchData();
 	}, []);
 
-	const handleSearchChange = e => {
-		setSearchTerm(e.target.value);
+	const handleSearchChange = e => setSearchTerm(e.target.value); //busqueda de curso
+//fx para identificar favoritos compararlo con id de api mandar mensaje y llevarlo al local
+	const handleFavoriteToggle = course => {
+		setFavorites(prevFavorites => {
+			const isFavorite = prevFavorites.some(fav => fav.id === course.id);
+			const newFavorites = isFavorite
+				? prevFavorites.filter(fav => fav.id !== course.id)
+				: [...prevFavorites, course];
+
+			setPopoverMessage(
+				isFavorite ? "Se quitó de favoritos" : "Sumado a Favoritos"
+			);
+			onFavoritesUpdate(newFavorites);
+			localStorage.setItem("favorites", JSON.stringify(newFavorites));
+
+			return newFavorites;
+		});
 	};
-	//extrae de la ruta de url de la api para la informacion del iframe
+
 	const extractVideoId = url => {
 		const regex =
-			/(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/(?:[^\/\n\s]+\/\S+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^&\n]{11})/;
+			/(https?:\/\/)?(www\.)?(youtube\.com\/(?:[^\/\n\s]+\/\S+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^&\n]{11})/;
 		const matches = url.match(regex);
-		return matches ? matches[1] : null;
+		return matches ? matches[3] : null;
 	};
 
 	const filteredCourses = courses.filter(course =>
 		course.title.toLowerCase().includes(searchTerm.toLowerCase())
 	);
+
+	if (loading) return <h2>Estamos cargando los cursos...</h2>;
 
 	return (
 		<Container fluid className="cardContainer">
@@ -74,25 +109,39 @@ const Catalogue = () => {
 
 			{filteredCourses.map((course, index) => {
 				const { title, price, description, modules } = course;
-				const courseData = CatalogueData.find(item => item.title === title); // Busca los datos del curso en CatalogueData
-				// Si no se encuentra el curso, retorna null
-				if (!courseData) {
-					return null;
-				}
-				//info que no se encuentra en api
-				const {
-					calificacion, //estrellas varia segun curso
-					instructor, //varia segun curso nombres en api no tienen nombre y apellido a pesar de tener esos campos
-					nivel, // inicial/intermedio/avanzado
-					duracion, //cantidad de horas varia segun curso **ver desde api
-					ejercicios //cantidad de ejercicio varia segun curso
-				} = courseData;
+				const courseData = CatalogueData.find(item => item.title === title);
+				if (!courseData) return null;
+				const { calificacion, instructor, nivel, duracion, ejercicios } =
+					courseData;
+				const isFavorite = favorites.some(fav => fav.id === course.id);
 
 				return (
 					<Row key={index} className={css.courseRow}>
 						<Row className={`align-items-center ${css.courseRowInside}`}>
 							<Col lg={7}>
-								<h2 className={css.courseh1}>{title}</h2>
+								<h2 className={css.courseh1}>
+									{title}
+									<OverlayTrigger
+										trigger="click"
+										placement="top"
+										overlay={
+											<Popover id="popover-basic">
+												<Popover.Body>{popoverMessage}</Popover.Body>
+											</Popover>
+										}
+									>
+										<span
+											onClick={() => handleFavoriteToggle(course)}
+											className="ms-2"
+										>
+											{isFavorite ? (
+												<GoHeartFill size={24} />
+											) : (
+												<GoHeart size={24} />
+											)}
+										</span>
+									</OverlayTrigger>
+								</h2>
 								<div className={css.courseDescription}>
 									<p>{description}</p>
 									<p>{calificacion}</p>
@@ -112,40 +161,22 @@ const Catalogue = () => {
 								<h2 className={css.detailh2}>Detalle del curso</h2>
 								<ul>
 									<li>
-										<span>
-											<BiBarChartAlt />
-										</span>
-										{nivel}
+										<BiBarChartAlt /> {nivel}
 									</li>
 									<li>
-										<span>
-											<FaPlayCircle />
-										</span>
-										{duracion}
+										<FaPlayCircle /> {duracion}
 									</li>
 									<li>
-										<span>
-											<FaCloudDownloadAlt />
-										</span>
-										Contenido descargable
+										<FaCloudDownloadAlt /> Contenido descargable
 									</li>
 									<li>
-										<span>
-											<FaCode />
-										</span>
-										{ejercicios}
+										<FaCode /> {ejercicios}
 									</li>
 									<li>
-										<span>
-											<IoIosInfinite />
-										</span>
-										Acesso sin vencimiento
+										<IoIosInfinite /> Acceso sin vencimiento
 									</li>
 									<li>
-										<span>
-											<GoClock />
-										</span>
-										Aprende a tu ritmo
+										<GoClock /> Aprende a tu ritmo
 									</li>
 								</ul>
 							</Col>
@@ -184,10 +215,7 @@ const Catalogue = () => {
 							<ul>
 								{modules.map(module => (
 									<li key={module.id}>
-										<span className={css.check}>
-											<IoMdCheckmark />
-										</span>
-										{module.title}
+										<IoMdCheckmark /> {module.title}
 									</li>
 								))}
 							</ul>
@@ -195,7 +223,7 @@ const Catalogue = () => {
 
 						<Col xs={12} lg={12} className={css.cardCol}>
 							<h2 className={css.contenth2}>Contenido del curso</h2>
-							<h3 className={css.contenth3}>12 horas 15 videos</h3>
+							<h3 className={css.contenth3}>{modules.length} módulos</h3>
 							<ul>
 								{modules.map(module => (
 									<li key={module.id} className="row">
@@ -213,11 +241,10 @@ const Catalogue = () => {
 
 						<Col
 							xs={12}
-							lg={12}
 							className={`d-flex flex-column align-items-center ${css.who}`}
 						>
 							<h2 className={`text-center ${css.contenth2}`}>
-								Quiénes pueden tomar este curso
+								¿Quiénes pueden tomar este curso?
 							</h2>
 							<ul className={css.listWho}>
 								<li>Todo aquel que quiera empezar su camino en programación</li>
@@ -231,12 +258,13 @@ const Catalogue = () => {
 
 						<Col className="d-flex justify-content-center mb-5">
 							<Button variant="dark" className="css.btnSale">
-								Suscríbete
+								Suscríbete a solo $ <span>{price}</span>
 							</Button>
 						</Col>
 					</Row>
 				);
 			})}
+
 			<Row>
 				<Col xs={12} md={6} lg={8} className="mx-auto">
 					<h3 className={`text-center ${css.carouselh3}`}>
@@ -244,7 +272,7 @@ const Catalogue = () => {
 					</h3>
 					<CarouselSU />
 					<h3 className={`text-center ${css.carouselh3b}`}>
-						Únete a Skillup Hoy y Empieza a Aprender!!
+						¡Únete a Skillup Hoy y Empieza a Aprender!
 					</h3>
 				</Col>
 			</Row>
