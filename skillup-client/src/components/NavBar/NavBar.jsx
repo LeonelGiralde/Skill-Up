@@ -85,7 +85,7 @@ function NavBar() {
 									className="me-2 p-2"
 									onClick={token && logout}
 								>
-									{token ? "Cerrar Sesión" : "Iniciar sesión"}
+									{token ? "Cerrar Sesión" : "Iniciar Sesión"}
 								</Button>
 							</Nav.Link>
 						</div>
