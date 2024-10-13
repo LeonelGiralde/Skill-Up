@@ -1,11 +1,13 @@
 import Inicio from "../views/Inicio/Inicio.jsx";
 import Login from "../views/Login/Login.jsx";
 import SignUp from "../views/SignUp/SignUp.jsx";
-import Students from "../views/Students/Students.jsx";
 import UserProfile from "../views/UserProfile/UserProfile.jsx";
 import Catalogue from "../views/Catalogo/Catalogue.jsx";
 import RouteProtector from "./RouterProtector.jsx";
 import About from "../views/About/About.jsx";
+import Payments from "../views/Payments/Payments.jsx";
+import CourseDetails from "../views/CourseDetails/CourseDetails.jsx";
+import MyCourses from "../views/MyCourses/MyCourses.jsx";
 
 export const SIGN_UP = {
 	id: crypto.randomUUID(),
@@ -14,35 +16,43 @@ export const SIGN_UP = {
 	element: <SignUp />
 };
 
-export const STUDENTS = {
+export const MY_COURSES = {
 	id: crypto.randomUUID(),
-	path: "/estudiantes",
-	name: "Estudiantes",
+	path: "mis-cursos",
+	to: "/mis-cursos",
+	name: "Mis cursos",
 	element: (
 		<RouteProtector>
-			<Students />
+			<MyCourses />
 		</RouteProtector>
 	)
 };
 
 export const INICIO = {
 	id: crypto.randomUUID(),
-	path: "/",
+	path: "",
+	to: "/",
 	name: "inicio",
 	element: <Inicio />
 };
 
 export const USER_PROFILE = {
 	id: crypto.randomUUID(),
-	path: "/perfil",
+	path: "perfil",
+	to: "/perfil",
 	name: "Perfil",
-	element: <UserProfile />
+	element: (
+		<RouteProtector>
+			<UserProfile />
+		</RouteProtector>
+	)
 };
 
 export const CATALOGUE = {
 	id: crypto.randomUUID(),
-	path: "/catalogue",
-	name: "catalogue",
+	path: "catalogue",
+	to: "/catalogue",
+	name: "Catálogo",
 	element: <Catalogue />
 };
 
@@ -59,4 +69,20 @@ export const ABOUT = {
 	to: "/about",
 	name: "About",
 	element: <About />
+};
+
+export const PAYMENTS = {
+	id: crypto.randomUUID(),
+	path: "pagos",
+	to: "/pagos",
+	name: "Pagos",
+	element: <Payments />
+};
+
+export const COURSE_DETAILS = {
+	id: crypto.randomUUID(),
+	path: "details/:id",
+	to: "/details/",
+	name: "Detalle del curso",
+	element: <CourseDetails />
 };
