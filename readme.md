@@ -11,26 +11,15 @@ Skillup es una plataforma de aprendizaje en línea diseñada para ofrecer una am
 ![alt text](image-8.png)
 
 ## Equipo
-![alt text](image-11.png) 
-[Nahuel Marcilli - Backend](https://github.com/marili-mn)
-![alt text](image-11.png)
-[Edwin Ortiz - Fullstack](https://github.com/edarcode)
-![alt text](image-11.png)  
-[Veronica Falconi - Frontend](https://github.com/veronicamfalconi)
-![alt text](image-11.png) 
-[Veronica Bravo - Frontend](https://github.com/VeronicaBravoDevs)
-![alt text](image-11.png) 
-[David Dos Santos - QA](https://github.com/DdSDavid)
-![alt text](image-11.png)
-[Fernando Cerdeño - Backend](https://github.com/FoxtrotCN)
-![alt text](image-11.png) 
-[Jair Rosales Medina - Backend](https://github.com/JairRoMe)
-![alt text](image-11.png) 
-[Leonel Giralde - Frontend](https://github.com/LeonelGiralde)
-![alt text](image-11.png) 
-[Leonel Giralde - Frontend](https://github.com/tamaracontreras)
-
-
+[![GitHub](https://img.shields.io/badge/-GitHub-000000?style=flat-square&logo=github&logoColor=white)](https://github.com/edarcode) EDWIN ORTIZ - FRONTKEND <br>
+[![GitHub](https://img.shields.io/badge/-GitHub-000000?style=flat-square&logo=github&logoColor=white)](https://github.com/veronicamfalconi) VERONICA FALCONI - FRONTEND <br>
+[![GitHub](https://img.shields.io/badge/-GitHub-000000?style=flat-square&logo=github&logoColor=white)](https://github.com/VeronicaBravoDevs) VERONICA BRAVO - FRONTEND <br>
+[![GitHub](https://img.shields.io/badge/-GitHub-000000?style=flat-square&logo=github&logoColor=white)](https://github.com/tamaracontreras) TAMARA CONTRERAS - FRONTEND <br>
+[![GitHub](https://img.shields.io/badge/-GitHub-000000?style=flat-square&logo=github&logoColor=white)](https://github.com/LeonelGiralde) LEONEL GIRALDE - FRONTEND <br>
+[![GitHub](https://img.shields.io/badge/-GitHub-000000?style=flat-square&logo=github&logoColor=white)](https://github.com/marili-mn) NAHUEL MARCILLI - BACKEND <br>
+[![GitHub](https://img.shields.io/badge/-GitHub-000000?style=flat-square&logo=github&logoColor=white)](https://github.com/FoxtrotCN) FERNANDO CERDEÑO - BACKEND <br>
+[![GitHub](https://img.shields.io/badge/-GitHub-000000?style=flat-square&logo=github&logoColor=white)](https://github.com/JairRoMe) JAIR ROSALES MEDINA - BACKEND <br>
+[![GitHub](https://img.shields.io/badge/-GitHub-000000?style=flat-square&logo=github&logoColor=white)](https://github.com/DdSDavid) DAVID DOS SANTOS - QA
 
 ## Características Principales
 
@@ -58,20 +47,22 @@ Skillup es una plataforma de aprendizaje en línea diseñada para ofrecer una am
 <img src="https://www.vectorlogo.zone/logos/figma/figma-icon.svg" alt="figma" width="40" height="40"/>
 
 <h3 align="left">Tecnologias del front</h3>
+<div>
 <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/react/react-original-wordmark.svg" alt="react" width="40" height="40"/> 
 <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/bootstrap/bootstrap-plain-wordmark.svg" alt="bootstrap" width="40" height="40"/>
 <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/css3/css3-original-wordmark.svg" alt="css3" width="40" height="40"/>
 <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/html5/html5-original-wordmark.svg" alt="html5" width="40" height="40"/> 
 <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/javascript/javascript-original.svg" alt="javascript" width="40" height="40"/> 
-![alt text](image.png)
-<img src="https://www.frontendmag.com/wp-content/uploads/2023/01/zustand-logo-300x126.png" alt="javascript" width="40" height="40"/> 
+<img src="https://www.frontendmag.com/wp-content/uploads/2023/01/zustand-logo-300x126.png" alt="javascript" width="40" height="40"/>  
+</div>
 
 <h3 align="left">Tecnologias del back</h3>
+<div>
 <img src="https://cdn.worldvectorlogo.com/logos/django.svg" alt="django" width="40" height="40"/>
 <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/docker/docker-original-wordmark.svg" alt="docker" width="40" height="40"/>
 <img src="https://www.vectorlogo.zone/logos/getpostman/getpostman-icon.svg" alt="postman" width="40" height="40"/> 
 <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/python/python-original.svg" alt="python" width="40" height="40"/> 
-![alt text](image-1.png)
+</div>
 
 
 
